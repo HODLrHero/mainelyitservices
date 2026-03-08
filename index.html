@@ -1421,7 +1421,10 @@ section::before {
         </div>
       </div>
 
-      <form class="contact-form" onsubmit="handleFormSubmit(event)">
+      <form class="contact-form" id="contactForm">
+        <div style="position:absolute;left:-9999px;" aria-hidden="true">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required placeholder="Your name">
@@ -1434,8 +1437,8 @@ section::before {
           <label for="message">Project Description</label>
           <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
         </div>
-        <button type="submit" class="form-submit">Send Message</button>
-        <p class="form-note">We typically respond within 24 hours.</p>
+        <button type="submit" class="form-submit" id="formSubmitBtn">Send Message</button>
+        <p class="form-note" id="formNote">We typically respond within 24 hours.</p>
       </form>
 
     </div>
@@ -1577,21 +1580,60 @@ section::before {
   /* ============================================
      CONTACT FORM HANDLER
      ============================================ */
-  window.handleFormSubmit = function(e) {
+  var contactForm = document.getElementById('contactForm');
+  var submitBtn = document.getElementById('formSubmitBtn');
+  var formNote = document.getElementById('formNote');
+
+  contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    var form = e.target;
-    var btn = form.querySelector('.form-submit');
-    var originalText = btn.textContent;
-    btn.textContent = 'Message Sent!';
-    btn.style.opacity = '0.7';
-    btn.disabled = true;
-    form.reset();
-    setTimeout(function() {
-      btn.textContent = originalText;
-      btn.style.opacity = '1';
-      btn.disabled = false;
-    }, 3000);
-  };
+
+    var formData = {
+      name: contactForm.name.value.trim(),
+      email: contactForm.email.value.trim(),
+      message: contactForm.message.value.trim(),
+      _honey: contactForm._honey.value
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    formNote.textContent = '';
+    formNote.style.color = '';
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(res) {
+      return res.json().then(function(data) { return { ok: res.ok, data: data }; });
+    })
+    .then(function(result) {
+      if (result.ok) {
+        submitBtn.textContent = 'Message Sent!';
+        formNote.textContent = "We'll be in touch soon.";
+        formNote.style.color = '#2D5016';
+        contactForm.reset();
+        setTimeout(function() {
+          submitBtn.textContent = 'Send Message';
+          submitBtn.disabled = false;
+          formNote.textContent = 'We typically respond within 24 hours.';
+          formNote.style.color = '';
+        }, 5000);
+      } else {
+        throw new Error(result.data.error || 'Something went wrong.');
+      }
+    })
+    .catch(function(err) {
+      submitBtn.textContent = 'Send Message';
+      submitBtn.disabled = false;
+      formNote.textContent = err.message || 'Failed to send. Please try again.';
+      formNote.style.color = '#c0392b';
+      setTimeout(function() {
+        formNote.textContent = 'We typically respond within 24 hours.';
+        formNote.style.color = '';
+      }, 5000);
+    });
+  });
 
   /* ============================================
      ACTIVE NAV LINK HIGHLIGHTING
