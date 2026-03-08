@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
           </tr>
         </table>
       </div>
-      <p style="margin-top:16px;font-size:12px;color:#888;">Sent from mainelyitservices.com contact form</p>
+      <p style="margin-top:16px;font-size:12px;color:#888;">Sent from mainelyit.org contact form</p>
     </div>
   `;
 
