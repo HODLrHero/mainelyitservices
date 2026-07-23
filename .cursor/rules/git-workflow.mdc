@@ -1,0 +1,14 @@
+---
+description: Commit and push changes after completing work in this repo
+alwaysApply: true
+---
+
+# Git Workflow
+
+After making code or content changes in this repository:
+
+1. Commit the relevant changes with a clear message (unless the user explicitly says not to commit).
+2. Push to the remote branch immediately after committing — do not leave changes only on disk or only committed locally.
+3. Confirm commit hash and push success in the response.
+
+Do not push unrelated untracked files (e.g. `.DS_Store`, local `memory/` notes) unless the user asks to include them.
