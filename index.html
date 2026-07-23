@@ -695,11 +695,12 @@ section::before {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1.5rem;
 }
 
 .portfolio-card {
+  grid-column: span 2;
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: 12px;
@@ -729,6 +730,14 @@ section::before {
 .portfolio-card:nth-child(3) .portfolio-bar { background: var(--portfolio-gradient-3); }
 .portfolio-card:nth-child(4) .portfolio-bar { background: var(--portfolio-gradient-4); }
 .portfolio-card:nth-child(5) .portfolio-bar { background: var(--portfolio-gradient-5); }
+
+.portfolio-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.portfolio-card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
 
 .portfolio-content {
   padding: 1.75rem;
@@ -1037,6 +1046,12 @@ section::before {
 
   .portfolio-grid {
     grid-template-columns: 1fr;
+  }
+
+  .portfolio-card,
+  .portfolio-card:nth-child(4),
+  .portfolio-card:nth-child(5) {
+    grid-column: auto;
   }
 
   .steps-container {
