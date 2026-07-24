@@ -1522,7 +1522,7 @@ section::before {
       </div>
       <div class="hero-stats">
         <div class="hero-stat"><strong>30+</strong><span>Years Experience</span></div>
-        <div class="hero-stat"><strong>500+</strong><span>Projects Delivered</span></div>
+        <div class="hero-stat"><strong>100+</strong><span>Projects Delivered</span></div>
         <div class="hero-stat"><strong>100%</strong><span>Client Dedication</span></div>
       </div>
     </div>
@@ -1685,15 +1685,15 @@ section::before {
 
     <div class="stats-bar">
       <div class="stat-item">
-        <div class="stat-number" data-target="30">0</div>
+        <div class="stat-number" data-target="30" data-suffix="+">0</div>
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-target="500">0</div>
+        <div class="stat-number" data-target="100" data-suffix="+">0</div>
         <div class="stat-label">Projects Delivered</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-target="100">0</div>
+        <div class="stat-number" data-target="100" data-suffix="%">0</div>
         <div class="stat-label">Client Dedication</div>
       </div>
     </div>
@@ -1977,11 +1977,7 @@ section::before {
       var target = parseInt(el.getAttribute('data-target'), 10);
       var duration = 2000;
       var startTime = null;
-      var suffix = '';
-
-      if (target === 30) suffix = '+';
-      else if (target === 500) suffix = '+';
-      else if (target === 100) suffix = '%';
+      var suffix = el.getAttribute('data-suffix') || (target === 30 ? '+' : '');
 
       function step(timestamp) {
         if (!startTime) startTime = timestamp;
