@@ -1,0 +1,25 @@
+---
+description: Generate Stripe invoices for Mainely I.T. clients via local script
+alwaysApply: true
+---
+
+# Stripe Invoices
+
+When the user asks to create or send a Stripe invoice:
+
+1. Use `scripts/create-invoice.js` — reads `STRIPE_SECRET_KEY` from project `.env`.
+2. Stripe emails the client automatically (`sendInvoice`); no website UI or webhook required.
+3. Required: `--email`, `--description`, `--amount` (dollars). Optional: `--name`, `--due` (days, default 30).
+
+Example:
+
+```bash
+node scripts/create-invoice.js \
+  --email client@example.com \
+  --name "Jane Client" \
+  --description "Website maintenance — March 2026" \
+  --amount 1500 \
+  --due 30
+```
+
+Do not expose `.env` values. `STRIPE_WEBHOOK_SECRET` and `INVOICE_API_SECRET` are optional for this workflow.
